@@ -3,18 +3,31 @@ import sublime
 
 
 def plugin_loaded():
-    # Sublime's default path on linux is
-    # /usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
-    settings = sublime.load_settings('CustomPATH.sublime-settings')
+    if sublime.platform() == "windows":
+            settings_file = "CustomPATH (Windows).sublime-settings"
 
-    path = settings.get('PATH')
-    if len(path) > 0:
-        if path not in os.environ['PATH']: # avoid inserting path multiple times
-            override = settings.get('override', False)
-            if override:
-                os.environ['PATH'] = path
-            else:
-                os.environ['PATH'] += os.pathsep+path
-            print('Path loaded: %s' % os.environ['PATH'])
+    elif sublime.platform() == "osx":
+        settings_file = "CustomPATH (OSX).sublime-settings"
+
+    else:
+        settings_file = "CustomPATH (Linux).sublime-settings"
+
+    settings = sublime.load_settings(settings_file)
+
+    append_to_path = settings.get("append_to_path")
+
+    if append_to_path is None:
+        print("CustomPATH: no platform specific PATH settings found! Check readme!")
+        return
+
+    if settings.get("enabled", True):
+        if settings.get("override", False):
+            os.environ["PATH"] = os.pathsep.join(append_to_path)
+
         else:
-            print('Path loaded: %s' % os.environ['PATH'])
+            for path in append_to_path:
+                if path not in os.environ["PATH"]:
+                    new_path = "{}{}".format(path, os.pathsep) + os.environ["PATH"]
+                    os.environ["PATH"] = new_path
+
+        print("CustomPATH: new PATH:", os.environ["PATH"])
