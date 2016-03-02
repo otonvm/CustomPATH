@@ -22,7 +22,7 @@
                             },
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/User/CustomPATH.sublime-settings"},
+                                "args": {"file": "${packages}/User/CustomPATH (${platform}).sublime-settings"},
                                 "caption": "Settings – User"
                             }
                         ]
