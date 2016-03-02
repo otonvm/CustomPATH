@@ -26,6 +26,12 @@
   <ItemGroup>
     <InterpreterReference Include="{17e8c5c9-4060-4122-9c4a-0ef1fed572d2}\3.5" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="CustomPATH.sublime-settings" />
+    <Content Include="LICENSE" />
+    <Content Include="Main.sublime-menu" />
+    <Content Include="README.md" />
+  </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
 </Project>
